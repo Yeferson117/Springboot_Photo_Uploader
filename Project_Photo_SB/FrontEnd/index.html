@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/css.css">
+    <title>photo</title>
+</head>
+<body onload="GetOffers()">
+    <div class="formContainer">
+        <form id="form" action="">
+            <input type="file" id="photoInput" accept="image/*">
+            <img id="photoPreview" src="" alt="Image Preview" style="max-width: 300px; display: none;">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <p>Aqui se verán las Fotos</p>
+    <button onclick="GetOffers()">Cargar ofertas</button>
+    <div id="photoContainer" class="container"></div>
+</body>
+<script src="js/js.js"></script>
+</html>

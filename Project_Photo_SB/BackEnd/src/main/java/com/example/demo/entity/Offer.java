@@ -8,15 +8,17 @@ import lombok.NonNull;
 @Entity
 @Table(name = "tbl_offer")
 public class Offer {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NonNull
-    @Column(name = "image", length = 16777216, columnDefinition="longtext", nullable = false)
-    private String url;
+    @Lob
+    @Column(name = "image", columnDefinition="longblob", nullable = false)
+    private byte[] image;
 
-    public Offer(){
-
+    public Offer() {
     }
 
     public Long getId() {
@@ -27,9 +29,11 @@ public class Offer {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setUrl(String url) { this.url = url; }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

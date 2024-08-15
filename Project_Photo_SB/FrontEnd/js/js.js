@@ -1,11 +1,10 @@
-//toma de datos
-
+// Toma de datos
 const form = document.getElementById("form");
-const photo = document.getElementById("photoInput");
+const photoInput = document.getElementById("photoInput");
 const photoContainer = document.getElementById("photoContainer");
 const photoPreview = document.getElementById("photoPreview");
 
-//vista previa de la imagen subida
+// Vista previa de la imagen subida
 photoInput.addEventListener("change", function(event) {
     const file = event.target.files[0];
 
@@ -24,38 +23,38 @@ photoInput.addEventListener("change", function(event) {
     }
 });
 
-//fetch para guardar la url de la imagen
-form.addEventListener("submit", function(event){
+// Fetch para guardar la imagen en formato BLOB
+form.addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const url = photoPreview.src;
+    const file = photoInput.files[0]; // Obtener el archivo de imagen
 
-    const data = {
-        url: url
-    };
+    if (!file) {
+        alert("No se ha seleccionado ninguna imagen.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file); // Agregar el archivo al FormData
 
     fetch('http://localhost:8080/api/offer', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data),
+        body: formData,
     })
     .then(response => response.json())
     .then(data => {
         console.log('Se ha guardado la oferta');
+        GetOffers(); // Cargar las ofertas después de guardar
+        location.href = "index.html"; // Redirigir después de guardar
     })
     .catch(error => {
-        alert("Hubo un problema al subir la imagen")
-        console.error('hubo un problema al guardar la oferta ', error);
+        alert("Hubo un problema al subir la imagen");
+        console.error('Hubo un problema al guardar la oferta:', error);
     });
-
-    GetOffers();
-    location.href = "index.html";
 });
 
-//funcion para obtener las imagenes de la DB
-function GetOffers(){
+// Función para obtener las imágenes de la DB
+function GetOffers() {
     photoContainer.innerHTML = '';
     fetch('http://localhost:8080/api/offer', {
         method: 'GET',
@@ -70,7 +69,7 @@ function GetOffers(){
             photoDiv.className = 'photoContainer';
             
             const img = document.createElement('img');
-            img.src = i.url;
+            img.src = `data:image/jpeg;base64,${i.image}`; // Asumiendo que se almacena como Base64
             img.alt = 'Image';
             img.className = 'photo';
             
@@ -80,10 +79,9 @@ function GetOffers(){
             // Añadir el div al contenedor
             photoContainer.appendChild(photoDiv);
         });
-        console.log('se han cargado las ofertas');
+        console.log('Se han cargado las ofertas');
     })
     .catch(error => {
-        alert("El server esta Apagado")
-        console.error('Error al cargar las ofertas: ', error);
+        console.error('Error al cargar las ofertas:', error);
     });
 }

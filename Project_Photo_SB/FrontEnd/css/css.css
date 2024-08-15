@@ -28,18 +28,6 @@ body{
     gap: 10px;
 }
 
-.container{
-    position: relative;
-    width: 80%;
-    height: fit-content;
-    padding: 2%;
-    background-color: white;
-    display: grid; /* Cambia de inline-flex a grid */
-    grid-template-columns: repeat(4, 1fr); /* Define 4 columnas iguales */
-    gap: 10px; /* Espacio entre las fotos */
-    border-radius: 10px;
-}
-
 .formContainer form{
     position: relative;
     width: 60%;
@@ -58,9 +46,26 @@ body{
     border-radius: 10px;
 }
 
+.container {
+    position: relative;
+    width: 80%;
+    height: 500px; /* Ajusta según sea necesario */
+    padding: 2%;
+    background-color: white;
+    gap: 10px; /* Espacio entre las fotos */
+    border-radius: 10px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 0.81fr 1fr 0.81fr 1fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px; /* Desplazamiento vertical si hay muchas imágenes */
+}
+
 .photoContainer{
     position: relative;
     width: 80%;
+    height: fit-content;
 }
 
 .photo{
@@ -70,6 +75,9 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 10px;
+    width: 100%; /* Ocupa todo el ancho del contenedor de la celda */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: cover; /* Cubre el contenedor sin distorsionar la imagen */
 }
 
 input[type=file]::file-selector-button {
@@ -93,4 +101,10 @@ button{
     color: white;
     border-style: none;
     border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas más pequeñas en pantallas pequeñas */
+    }
 }
